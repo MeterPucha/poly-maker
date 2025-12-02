@@ -96,7 +96,7 @@ def process_data(json_datas, trade=True):
                     asyncio.create_task(perform_trade(asset))
         
 
-        pretty_print(f'Received book update for {asset}:', global_state.all_data[asset])
+        print(f'Received book update for {asset}:', global_state.all_data[asset])
 
 def add_to_performing(col, id):
     if col not in global_state.performing:
