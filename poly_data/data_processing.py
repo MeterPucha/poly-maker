@@ -33,11 +33,43 @@ def process_price_change(asset, side, price_level, new_size):
         book[price_level] = new_size
 
 def process_data(json_datas, trade=True):
+    import json
+
+    # Normalize input: can be string, dict, or list
+    if isinstance(json_datas, str):
+        # Try to parse JSON string
+        try:
+            json_datas = json.loads(json_datas)
+        except json.JSONDecodeError:
+            print("[market_ws] Skipping non-JSON message:", repr(json_datas))
+            return
+
+    # If it's a single dict, wrap it in a list
+    if isinstance(json_datas, dict):
+        json_datas = [json_datas]
+    # If it's something weird (not list/dict/str), bail
+    elif not isinstance(json_datas, list):
+        print("[market_ws] Unexpected payload type:", type(json_datas), repr(json_datas))
+        return
 
     for json_data in json_datas:
-        event_type = json_data['event_type']
-        asset = json_data['market']
+        print("[market_ws] RAW:", repr(json_data))
 
+        # We only care about dict messages
+        if not isinstance(json_data, dict):
+            print("[market_ws] Skipping non-dict element:", repr(json_data))
+            continue
+
+        event_type = json_data.get('event_type')
+        if event_type is None:
+            print("[market_ws] Missing event_type in message:", repr(json_data))
+            continue
+
+        asset = json_data.get('market')
+        if asset is None:
+            print("[market_ws] Missing market in message:", repr(json_data))
+            continue
+        
         if event_type == 'book':
             process_book_data(asset, json_data)
 
