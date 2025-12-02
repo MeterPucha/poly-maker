@@ -78,13 +78,12 @@ def process_data(json_datas, trade=True):
                 
         elif event_type == 'price_change':
             for data in json_data['price_changes']:
-                    for data in json_data['price_changes']:
-                    asset_id = data.get('asset_id')
+                asset_id = data.get('asset_id')
 
-                    # Defensive: if there is no asset_id, skip this entry
-                    if asset_id is None:
-                        print("[market_ws] price_change without asset_id:", repr(data))
-                        continue
+                # Defensive: if there is no asset_id, skip this entry
+                if asset_id is None:
+                    print("[market_ws] price_change without asset_id:", repr(data))
+                    continue
 
 
                 
