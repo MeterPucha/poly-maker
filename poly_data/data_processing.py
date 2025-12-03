@@ -53,7 +53,7 @@ def process_data(json_datas, trade=True):
         return
 
     for json_data in json_datas:
-        print("[market_ws] RAW:", repr(json_data))
+        #print("[market_ws] RAW:", repr(json_data))
 
         # We only care about dict messages
         if not isinstance(json_data, dict):
