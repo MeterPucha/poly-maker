@@ -119,7 +119,8 @@ def remove_from_performing(col, id):
 def process_user_data(rows):
     if not isinstance(rows, list):
         print(f"User data received but it's not a list: {rows}")  # Log for debugging
-        return  # Skip processing
+        rows = [rows] if isinstance(rows, dict) else []
+        #return  # Skip processing
         
     for row in rows:
         market = row['market']
