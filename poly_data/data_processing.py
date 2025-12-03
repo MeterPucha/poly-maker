@@ -41,7 +41,7 @@ def process_data(json_datas, trade=True):
         try:
             json_datas = json.loads(json_datas)
         except json.JSONDecodeError:
-            print("[market_ws] Skipping non-JSON message:", repr(json_datas))
+            #print("[market_ws] Skipping non-JSON message:", repr(json_datas))
             return
 
     # If it's a single dict, wrap it in a list
